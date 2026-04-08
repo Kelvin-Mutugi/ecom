@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import '../styles/cart.css';
 
 function Cart() {
-    const { cartItems, cartCount } = useCart();
+    const { cartItems, cartCount, removeFromCart } = useCart();
 
     const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -33,6 +33,13 @@ function Cart() {
                                     <div className="cart-item-price">
                                         ${(item.price * item.quantity).toFixed(2)}
                                     </div>
+                                    <button
+                                        className="cart-btn-remove"
+                                        onClick={() => removeFromCart(item.id)}
+                                        title="Remove from cart"
+                                    >
+                                        ✕
+                                    </button>
                                 </li>
                             ))}
                         </ul>

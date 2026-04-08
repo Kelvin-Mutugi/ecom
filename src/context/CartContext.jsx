@@ -1,11 +1,20 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 // 1. Create the context object
 const CartContext = createContext();
 
 // 2. The Provider — this is what wraps your app and holds the state
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    // Load cart items from localStorage on initialization
+    const savedCart = localStorage.getItem("cartItems");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  // Save cart items to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   // ADD TO CART
   function addToCart(product) {
